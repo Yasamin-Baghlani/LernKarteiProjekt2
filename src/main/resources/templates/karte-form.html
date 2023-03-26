@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+<head th:replace="fragments.html :: head(${title})"></head>
+<body>
+<nav th:replace="fragments.html :: mainNav">
+
+</nav>
+<main class="container my-3 " >
+    <div class="row">
+       <div class="col-sm-6">
+           <h1 th:text="${title}"></h1>
+           <form method="post" th:action="@{/save}"  th:object="${karte}">
+
+               <input type="hidden" id="id" th:field="*{id}">
+
+               <div class="mb-3">
+                   <label for="lerngruppe" class="form-label" ><h2>LernGruppe</h2></label>
+                   <select name="lerngruppe" id="lerngruppe" class="form-select" th:field="*{lernGruppe}">
+                       <option th:each="l : ${lerngruppes}" th:value="${l.id}" th:text="${l.title}" th:selected ="${l==karte.lernGruppe}"></option>
+                   </select>
+               </div>
+
+
+
+               <div class="card  mb-3" style="max-width: 40rem;">
+                   <div class="card-header text-bg-primary">Frage</div>
+                   <div class="card-body">
+                       <textarea class="form-control-plaintext" rows="5" placeholder="Schreib hier die Frage..." th:field="*{frage}"></textarea>
+                   </div>
+               </div>
+
+               <div class="card  mb-3" style="max-width: 40rem;">
+                   <div class="card-header text-bg-success">Antwort</div>
+                   <div class="card-body">
+                       <textarea class="form-control-plaintext" rows="5" placeholder="Schreib hier die Antwort..." th:field="*{antwort}"></textarea>
+                   </div>
+               </div>
+
+               <button class="btn btn-success">Speichern</button>
+           </form>
+       </div>
+    </div>
+</main>
+
+<th:block th:replace="fragments.html :: foot"></th:block>
+</body>
+</html>
