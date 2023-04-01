@@ -5,27 +5,31 @@
 <nav th:replace="fragments.html :: mainNav">
 </nav>
 <main class="container m-5">
-    <div class="row">
+    <div class="row" >
         <div class="col">
-
             <table class="table">
                 <thead>
                 <tr>
                     <th>Frage</th>
+                    <th>LernGruppe</th>
                     <th>&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="k : ${karte}">
-                    <td th:text="${k.Frage}"></td>
+                    <td th:text="${k.frage}"></td>
+                   <td th:text="${lernGruppe}"> </td>
                     <td>
                         <a th:href="@{/antwort/{id}(id=${k.id})}" class="btn btn-success">Antwort anzeigen</a>
                     </td>
-
                 </tr>
                 </tbody>
 
             </table>
+            <!--<div th:if="${karten} == 'msg'">
+                <p th:text="${msg}"></p>
+            </div>-->
+            <a th:href="@{/lernkartei}" class="btn btn-success">Zurück</a>
         </div>
         <div class="col">
             <table class="table">
@@ -35,46 +39,43 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td >
-                            <div th:if="${active} == 'zeigen'" class="row alert alert-primary">
-                                <h1 th:text="${zeigen}"></h1>
-                                <div  class="row g-3">
+                <tr>
+                    <td >
+                        <div th:if="${active} == 'zeigen'" class="row alert alert-primary">
+                            <h1 th:text="${zeigen}"></h1>
+                            <div  class="row g-3">
+                                <div class="col-auto">
+                                    <p>
+                                        <a class="btn btn-success" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Korrekt</a>
+                                        <button class="btn btn-danger" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Falsch</button>
+                                    </p>
                                     <div class="col-auto">
-                                        <p>
-                                            <a class="btn btn-success" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Korrekt</a>
-                                            <button class="btn btn-danger" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Falsch</button>
-                                        </p>
-                                        <div class="col-auto">
-                                            <div class="col">
-                                                <div class="collapse multi-collapse" id="multiCollapseExample1">
-                                                    <div th:if="${act} == 'erinnerung'"  class="card card-body">
-                                                        <p th:text="${erinnerung}"></p><p>Tage spät wird erinnert</p>
-                                                        <a th:href="@{/korrekt}">OK</a>
-                                                    </div>
+                                        <div class="col">
+                                            <div class="collapse multi-collapse" id="multiCollapseExample1">
+                                                <div th:if="${act} == 'erinnerung'"  class="card card-body">
+                                                    <p th:text="${erinnerung}"></p><p>Tage spät wird erinnert</p>
+                                                    <a th:href="@{/korrekt}">OK</a>
                                                 </div>
                                             </div>
-                                            <div class="col-auto">
-                                                <div class="collapse multi-collapse" id="multiCollapseExample2">
-                                                    <div class="card card-body">
-                                                        wird als neue Karte gespeichert und bald erinnert
-                                                        <a th:href="@{/falsch}">OK</a>
-                                                    </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="collapse multi-collapse" id="multiCollapseExample2">
+                                                <div class="card card-body">
+                                                    wird als neue Karte gespeichert und bald erinnert
+                                                    <a th:href="@{/falsch}">OK</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div th:if="${active} == 'z'" ></div>
-                        </td>
-                    </tr>
+                        </div>
+                        <div th:if="${active} == 'z'" ></div>
+                    </td>
+                </tr>
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
 </main>
 

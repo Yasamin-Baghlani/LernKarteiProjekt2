@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="de">
+<head th:replace="fragments.html :: head(${title})"></head>
+<body>
+  <nav th:replace="fragments.html :: mainNav">
+
+  </nav>
+  <main class="position-absolute top-50 start-50 translate-middle " >
+      <div class="row">
+          <div class="row alert alert-primary">
+             <h1 th:text="${lernGruppeerror}"></h1>
+              <a th:href="@{/lernkartei}" class="btn btn-success">Zurück</a>
+          </div>
+      </div>
+  </main>
+
+  <th:block th:replace="fragments.html :: foot"></th:block>
+</body>
+</html>

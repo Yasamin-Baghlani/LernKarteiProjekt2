@@ -8,13 +8,13 @@
 <main class="container my-3 " >
     <div class="row">
        <div class="col-sm-6">
-           <h1 th:text="${title}"></h1>
+           <h1 class="mt-5" th:text="${title}"></h1>
            <form method="post" th:action="@{/save}"  th:object="${karte}">
 
                <input type="hidden" id="id" th:field="*{id}">
 
                <div class="mb-3">
-                   <label for="lerngruppe" class="form-label" ><h2>LernGruppe</h2></label>
+                   <label for="lerngruppe" class="form-label" ><h3>LernGruppe</h3></label>
                    <select name="lerngruppe" id="lerngruppe" class="form-select" th:field="*{lernGruppe}">
                        <option th:each="l : ${lerngruppes}" th:value="${l.id}" th:text="${l.title}" th:selected ="${l==karte.lernGruppe}"></option>
                    </select>

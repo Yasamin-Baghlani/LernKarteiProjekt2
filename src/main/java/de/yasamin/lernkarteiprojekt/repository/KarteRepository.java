@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface KarteRepository extends JpaRepository<Karte, Long> {
+
+    List<Karte> findAllByLernGruppeAndDate(LernGruppe lernGruppe, LocalDate date);
     List<Karte> findAllByLernGruppe(LernGruppe lernGruppe);
-
-
-    List<Karte> findAllByDate(LocalDate date);
     List<Karte> findAllByLerncount(int count);
 }

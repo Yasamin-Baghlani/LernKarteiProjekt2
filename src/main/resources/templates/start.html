@@ -14,15 +14,15 @@
             <h1 th:text="${col2}"></h1>
           </div>
           <div class="row mb-3">
-            <form method="get" class="d-grid gap-2" th:action="@{/login}">
-              <button class="btn btn-success btn-lg align-middle" type="submit">Jetzt Anmelden</button>
+            <form method="get" class="d-grid gap-2" th:action="@{/newlrngrp}">
+              <button class="btn btn-success btn-lg align-middle" type="submit">Neue Lernkartei erstellen</button>
             </form>
           </div>
           <div class="row mb-3 text-center">
               <p size="10">Oder</p>
           </div>
           <div class="row">
-              <form class="d-grid gap-2" action="#">
+              <form class="d-grid gap-2" th:action="@{/lernkartei}">
                 <button class="btn btn-success btn-lg" type="submit">Mit Lernen anfangen</button>
               </form>
           </div>

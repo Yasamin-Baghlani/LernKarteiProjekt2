@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments.html :: head(${title})"></head>
+<body>
+<nav th:replace="fragments.html :: mainNav">
+</nav>
+<main class="container m-5">
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>LernGruppe</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="l : ${lernGruppe}">
+                    <td th:text="${l.id}"></td>
+                    <td th:text="${l.title}"> </td>
+                    <td>
+                        <a th:href="@{/lerngruppe/{id}(id=${l.id})}" class="btn btn-success">Lernen</a>
+                        <a th:href="@{/new}" class="btn btn-success">Neue Lernkarte</a>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+            <a th:href="@{/}" class="btn btn-success">Zurück</a>
+        </div>
+    </div>
+</main>
+
+<th:block th:replace="fragments.html :: foot"></th:block>
+</body>
+</html>

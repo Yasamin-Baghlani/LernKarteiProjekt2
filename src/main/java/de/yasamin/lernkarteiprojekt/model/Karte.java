@@ -38,8 +38,4 @@ public class Karte implements Serializable {
     private int lerncount;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-
-
 }

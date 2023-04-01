@@ -3,10 +3,8 @@ package de.yasamin.lernkarteiprojekt;
 import de.yasamin.lernkarteiprojekt.model.Karte;
 import de.yasamin.lernkarteiprojekt.model.LernGruppe;
 import de.yasamin.lernkarteiprojekt.model.Status;
-import de.yasamin.lernkarteiprojekt.model.User;
 import de.yasamin.lernkarteiprojekt.repository.KarteRepository;
 import de.yasamin.lernkarteiprojekt.repository.LernGruppeRepository;
-import de.yasamin.lernkarteiprojekt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -23,7 +20,6 @@ public class LernKarteiProjektApplication implements WebMvcConfigurer,CommandLin
     private final LernGruppeRepository lernGruppeRepository;
     private final KarteRepository karteRepository;
 
-    private final UserRepository userRepository;
 
     public static void main(String[] args) {
 
@@ -32,19 +28,8 @@ public class LernKarteiProjektApplication implements WebMvcConfigurer,CommandLin
 
     @Override
     public void run(String... args) throws Exception {
+
 /*
-        var user1 = User.builder()
-                .email("yas.yasi@gmail.com")
-                .password("123")
-                .build();
-        userRepository.save(user1);
-
-        var user2 = User.builder()
-                .email("yasamin@gmail.com")
-                .password("123")
-                .build();
-        userRepository.save(user2);
-
        var lerngruppe = LernGruppe.builder()
                .title("Matematik")
                .build();
@@ -61,7 +46,6 @@ public class LernKarteiProjektApplication implements WebMvcConfigurer,CommandLin
                 .antwort("Antwort 1")
                 .status(Status.NEU)
                 .date(LocalDate.now())
-                .user(user1)
                 .build();
         karteRepository.save(karte);
 
@@ -71,7 +55,6 @@ public class LernKarteiProjektApplication implements WebMvcConfigurer,CommandLin
                 .antwort("Antwort 2")
                 .status(Status.NEU)
                 .date(LocalDate.now())
-                .user(user2)
                 .build();
         karteRepository.save(karte2);*/
     }

@@ -1,19 +1,23 @@
 package de.yasamin.lernkarteiprojekt.controller;
 
 import de.yasamin.lernkarteiprojekt.model.Karte;
+import de.yasamin.lernkarteiprojekt.model.LernGruppe;
 import de.yasamin.lernkarteiprojekt.model.Status;
 import de.yasamin.lernkarteiprojekt.repository.KarteRepository;
 import de.yasamin.lernkarteiprojekt.repository.LernGruppeRepository;
 import de.yasamin.lernkarteiprojekt.service.KarteService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.ModCheck;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -27,7 +31,8 @@ public class KarteController {
     private final LernGruppeRepository lerngrupperepository;
 
     private  Optional<Karte>  karten = null;
-
+    private  List<Karte> kartes = null;
+    Optional<Karte> k = null;
 
     @GetMapping
     public String index(Model model){
@@ -37,8 +42,27 @@ public class KarteController {
     }
 
     @GetMapping("karte")
-    public String list(Karte karte,Model model){
-        model.addAttribute("karte", karteRepository.findAllByDate(LocalDate.now()));
+    public String list(LernGruppe lernGruppe,Karte karte,BindingResult result,Model model){
+
+
+
+        if(kartes != null){
+            kartes.forEach(karte1 ->{
+                if (karte1.getDate().equals(LocalDate.now())) {
+                    model.addAttribute("karte", karteRepository.findAllByLernGruppeAndDate(karte1.getLernGruppe(), LocalDate.now()));
+                    model.addAttribute("lernGruppe", karte1.getLernGruppe().getTitle());
+                }
+                if (!karte1.getDate().equals(LocalDate.now())){
+                    model.addAttribute("karte", null);
+                   // model.addAttribute("msg", "Für heute gibt keine Karte");
+                }
+            } );
+        }
+        if (kartes.isEmpty()){
+            // model.addAttribute("lrngrp", "lernGruppeerror");
+            model.addAttribute("lernGruppeerror", "keine Karte ist vorhanden,sollen karten erstellen werden");
+            return "error";
+        }
 
         if (karten != null) {
             model.addAttribute("zeigen", karten.get().getAntwort());
@@ -58,10 +82,28 @@ public class KarteController {
 
         return "karte";
     }
+    /* model.addAttribute("lrngrp", "lernGruppeerror");
+            model.addAttribute("lernGruppeerror", "keine Karte ist vorhanden,sollen karten erstellen werden");
+            return "error";*/
+    @GetMapping("lernkartei")
+    public String lernkarteilist(@Valid LernGruppe lernGruppe,Model model){
+        model.addAttribute("lernGruppe", lerngrupperepository.findAll());
+        karten=null;
+        kartes=null;
+        return "lernkartei";
+    }
 
     @GetMapping("antwort/{id}")
     public String antwort(@PathVariable Long  id, Model model){
         karten = karteRepository.findById(id);
+
+        return "redirect:/karte";
+    }
+
+
+    @GetMapping("lerngruppe/{id}")
+    public String lerngruppe(@PathVariable Long id, Model model){
+       kartes = karteRepository.findAllByLernGruppe(lerngrupperepository.findById(id).get());
         return "redirect:/karte";
     }
     @GetMapping("korrekt")
@@ -89,7 +131,7 @@ public class KarteController {
 
         karten.get().setDate(LocalDate.now().plusDays(1));
         karten.get().setStatus(Status.FALSCH);
-        karten.get().setLerncount(2);
+        karten.get().setLerncount(0);
         karteRepository.save(karten.get());
         karten = null;
 
@@ -103,6 +145,13 @@ public class KarteController {
         return "karte-form";
     }
 
+    @GetMapping("newlrngrp")
+    public String newlernkartei(@Valid LernGruppe lernGruppe,Model model){
+        model.addAttribute("title", "Neue Lern-Kartei");
+        model.addAttribute("lerngruppes", lerngrupperepository.findAll());
+        return "lernkartei-form";
+    }
+
     @PostMapping(value="save")
     public String savekarte(@Valid Karte karte, BindingResult result, Model model){
         if(result.hasErrors()){
@@ -113,7 +162,19 @@ public class KarteController {
         karte.setStatus(Status.NEU);
         karte.setLerncount(0);
         karteRepository.save(karte);
-        return "redirect:/karte";
+        return "karte";
+    }
+
+
+
+    @PostMapping(value="savelrngrp")
+    public String savelernkartei(@Valid LernGruppe lernGruppe, BindingResult result, Model model){
+        if(result.hasErrors()){
+            return "lernkartei-form";
+        }
+
+        lerngrupperepository.save(lernGruppe);
+        return "redirect:/lernkartei";
     }
 
 
