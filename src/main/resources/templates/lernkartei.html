@@ -10,24 +10,33 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>LernGruppe</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
                     <th>&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="l : ${lernGruppe}">
-                    <td th:text="${l.id}"></td>
                     <td th:text="${l.title}"> </td>
                     <td>
-                        <a th:href="@{/lerngruppe/{id}(id=${l.id})}" class="btn btn-success">Lernen</a>
+                        <a th:href="@{/lerngruppe/{id}(id=${l.id})}" class="btn btn-primary">Lernen</a>
+                    </td>
+                    <td>
                         <a th:href="@{/new}" class="btn btn-success">Neue Lernkarte</a>
                     </td>
+                    <td>
+                        <form method="post" th:action="@{/delete}">
+                            <input type="hidden" name="id" th:value="${l.id}">
+                            <button class="btn btn-danger"> Delete </button>
+                        </form>
+                    </td>
+
                 </tr>
                 </tbody>
 
             </table>
-            <a th:href="@{/}" class="btn btn-success">Zurück</a>
+            <a th:href="@{/}" class="btn btn-info">Zurück</a>
         </div>
     </div>
 </main>

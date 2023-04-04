@@ -5,14 +5,11 @@ import de.yasamin.lernkarteiprojekt.model.LernGruppe;
 import de.yasamin.lernkarteiprojekt.model.Status;
 import de.yasamin.lernkarteiprojekt.repository.KarteRepository;
 import de.yasamin.lernkarteiprojekt.repository.LernGruppeRepository;
-import de.yasamin.lernkarteiprojekt.service.KarteService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.constraints.ModCheck;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -32,7 +29,6 @@ public class KarteController {
 
     private  Optional<Karte>  karten = null;
     private  List<Karte> kartes = null;
-    Optional<Karte> k = null;
 
     @GetMapping
     public String index(Model model){
@@ -54,12 +50,10 @@ public class KarteController {
                 }
                 if (!karte1.getDate().equals(LocalDate.now())){
                     model.addAttribute("karte", null);
-                   // model.addAttribute("msg", "Für heute gibt keine Karte");
                 }
             } );
         }
         if (kartes.isEmpty()){
-            // model.addAttribute("lrngrp", "lernGruppeerror");
             model.addAttribute("lernGruppeerror", "keine Karte ist vorhanden,sollen karten erstellen werden");
             return "error";
         }
@@ -82,9 +76,7 @@ public class KarteController {
 
         return "karte";
     }
-    /* model.addAttribute("lrngrp", "lernGruppeerror");
-            model.addAttribute("lernGruppeerror", "keine Karte ist vorhanden,sollen karten erstellen werden");
-            return "error";*/
+
     @GetMapping("lernkartei")
     public String lernkarteilist(@Valid LernGruppe lernGruppe,Model model){
         model.addAttribute("lernGruppe", lerngrupperepository.findAll());
@@ -99,7 +91,6 @@ public class KarteController {
 
         return "redirect:/karte";
     }
-
 
     @GetMapping("lerngruppe/{id}")
     public String lerngruppe(@PathVariable Long id, Model model){
@@ -164,9 +155,13 @@ public class KarteController {
         karteRepository.save(karte);
         return "karte";
     }
-
-
-
+    @PostMapping("delete")
+    public String deleteitem(@Valid LernGruppe lernGruppe, Model model){
+        List<Karte> k= karteRepository.findAllByLernGruppe(lernGruppe);
+        karteRepository.deleteAllInBatch(k);
+       lerngrupperepository.delete(lernGruppe);
+        return "redirect:/lernkartei";
+    }
     @PostMapping(value="savelrngrp")
     public String savelernkartei(@Valid LernGruppe lernGruppe, BindingResult result, Model model){
         if(result.hasErrors()){
