@@ -13,6 +13,7 @@
                     <th>Frage</th>
                     <th>LernGruppe</th>
                     <th>&nbsp;</th>
+                    <th>&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,14 +23,18 @@
                     <td>
                         <a th:href="@{/antwort/{id}(id=${k.id})}" class="btn btn-success">Antwort anzeigen</a>
                     </td>
+                    <td>
+                        <form method="post" th:action="@{/deletekarte}">
+                            <input type="hidden" name="id" th:value="${k.id}">
+                            <button class="btn btn-danger"> Löschen </button>
+                        </form>
+                    </td>
+
                 </tr>
                 </tbody>
 
             </table>
-            <!--<div th:if="${karten} == 'msg'">
-                <p th:text="${msg}"></p>
-            </div>-->
-            <a th:href="@{/lernkartei}" class="btn btn-success">Zurück</a>
+            <a th:href="@{/lernkartei}" class="btn btn-info">Zurück</a>
         </div>
         <div class="col">
             <table class="table">

@@ -23,6 +23,8 @@ public class Statistik implements Serializable {
     @GeneratedValue
     private long id;
 
+    //TODO
+
 
 
 }

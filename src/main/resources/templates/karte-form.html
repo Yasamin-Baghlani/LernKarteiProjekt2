@@ -25,18 +25,18 @@
                <div class="card  mb-3" style="max-width: 40rem;">
                    <div class="card-header text-bg-primary">Frage</div>
                    <div class="card-body">
-                       <textarea class="form-control-plaintext" rows="5" placeholder="Schreib hier die Frage..." th:field="*{frage}"></textarea>
+                       <textarea class="form-control-plaintext" rows="5" placeholder="Schreib hier die Frage..." th:field="*{frage}" th:text="${karte.getFrage()}"></textarea>
                    </div>
                </div>
 
                <div class="card  mb-3" style="max-width: 40rem;">
                    <div class="card-header text-bg-success">Antwort</div>
                    <div class="card-body">
-                       <textarea class="form-control-plaintext" rows="5" placeholder="Schreib hier die Antwort..." th:field="*{antwort}"></textarea>
+                       <textarea class="form-control-plaintext" rows="5" placeholder="Schreib hier die Antwort..." th:field="*{antwort}" th:text="${karte.getAntwort()}"></textarea>
                    </div>
                </div>
-
                <button class="btn btn-success">Speichern</button>
+               <a th:href="@{/lernkartei}" class="btn btn-info">Zurück</a>
            </form>
        </div>
     </div>

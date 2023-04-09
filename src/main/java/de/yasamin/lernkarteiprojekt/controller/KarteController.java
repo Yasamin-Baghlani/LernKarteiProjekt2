@@ -130,7 +130,7 @@ public class KarteController {
     }
 
     @GetMapping("new")
-    public String newkarte(Karte karte,Model model){
+    public String newkarte(Karte karte,LernGruppe lernGruppe,Model model){
         model.addAttribute("title", "Neue Karte");
         model.addAttribute("lerngruppes", lerngrupperepository.findAll());
         return "karte-form";
@@ -153,21 +153,27 @@ public class KarteController {
         karte.setStatus(Status.NEU);
         karte.setLerncount(0);
         karteRepository.save(karte);
+        kartes = karteRepository.findAllByLernGruppe(karte.getLernGruppe());
         return "karte";
     }
     @PostMapping("delete")
-    public String deleteitem(@Valid LernGruppe lernGruppe, Model model){
+    public String deletelerng(@Valid LernGruppe lernGruppe, Model model){
         List<Karte> k= karteRepository.findAllByLernGruppe(lernGruppe);
         karteRepository.deleteAllInBatch(k);
        lerngrupperepository.delete(lernGruppe);
         return "redirect:/lernkartei";
     }
+    @PostMapping("deletekarte")
+    public String deletekarte(@Valid Karte karte, Model model){
+        karteRepository.delete(karte);
+        return "redirect:/karte";
+    }
+
     @PostMapping(value="savelrngrp")
     public String savelernkartei(@Valid LernGruppe lernGruppe, BindingResult result, Model model){
         if(result.hasErrors()){
             return "lernkartei-form";
         }
-
         lerngrupperepository.save(lernGruppe);
         return "redirect:/lernkartei";
     }
