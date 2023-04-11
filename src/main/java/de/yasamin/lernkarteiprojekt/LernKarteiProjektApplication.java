@@ -83,7 +83,7 @@ public class LernKarteiProjektApplication implements WebMvcConfigurer,CommandLin
         karteRepository.save(karte4);
 
         var karte5 = Karte.builder()
-                .lernGruppe(lerngruppe2)
+                .lernGruppe(lerngruppe3)
                 .frage("Frage 5")
                 .antwort("Antwort 5")
                 .status(Status.NEU)
@@ -92,7 +92,7 @@ public class LernKarteiProjektApplication implements WebMvcConfigurer,CommandLin
         karteRepository.save(karte5);
 
         var karte6 = Karte.builder()
-                .lernGruppe(lerngruppe2)
+                .lernGruppe(lerngruppe3)
                 .frage("Frage 6")
                 .antwort("Antwort 6")
                 .status(Status.NEU)

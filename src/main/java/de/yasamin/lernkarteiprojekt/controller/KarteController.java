@@ -154,7 +154,7 @@ public class KarteController {
         karte.setLerncount(0);
         karteRepository.save(karte);
         kartes = karteRepository.findAllByLernGruppe(karte.getLernGruppe());
-        return "karte";
+        return "redirect:/karte";
     }
     @PostMapping("delete")
     public String deletelerng(@Valid LernGruppe lernGruppe, Model model){
