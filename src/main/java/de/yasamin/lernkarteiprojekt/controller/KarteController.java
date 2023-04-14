@@ -27,8 +27,8 @@ public class KarteController {
 
     private final LernGruppeRepository lerngrupperepository;
 
-    private  Optional<Karte>  karten = null;
-    private  List<Karte> kartes = null;
+    private  Optional<Karte> kartenID = null;
+    private  List<Karte> kartenGrup = null;
 
     @GetMapping
     public String index(Model model){
@@ -42,8 +42,8 @@ public class KarteController {
 
 
 
-        if(kartes != null){
-            kartes.forEach(karte1 ->{
+        if(kartenGrup != null){
+            kartenGrup.forEach(karte1 ->{
                 if (karte1.getDate().equals(LocalDate.now())) {
                     model.addAttribute("karte", karteRepository.findAllByLernGruppeAndDate(karte1.getLernGruppe(), LocalDate.now()));
                     model.addAttribute("lernGruppe", karte1.getLernGruppe().getTitle());
@@ -53,19 +53,19 @@ public class KarteController {
                 }
             } );
         }
-        if (kartes.isEmpty()){
+        if (kartenGrup.isEmpty()){
             model.addAttribute("lernGruppeerror", "keine Karte ist vorhanden,sollen karten erstellen werden");
             return "error";
         }
 
-        if (karten != null) {
-            model.addAttribute("zeigen", karten.get().getAntwort());
+        if (kartenID != null) {
+            model.addAttribute("zeigen", kartenID.get().getAntwort());
             model.addAttribute("active", "zeigen");
-            if(karten.get().getLerncount()>0){
-                model.addAttribute("erinnerung",7);
+            if(kartenID.get().getLerncount()>0){
+                model.addAttribute("erinnerung","7 Tage spät wird erinnert");
                 model.addAttribute("act", "erinnerung");
             }else {
-                model.addAttribute("erinnerung",2);
+                model.addAttribute("erinnerung","2 Tage spät wird erinnert");
                 model.addAttribute("act", "erinnerung");
             }
 
@@ -80,51 +80,51 @@ public class KarteController {
     @GetMapping("lernkartei")
     public String lernkarteilist(@Valid LernGruppe lernGruppe,Model model){
         model.addAttribute("lernGruppe", lerngrupperepository.findAll());
-        karten=null;
-        kartes=null;
+        kartenID =null;
+        kartenGrup =null;
         return "lernkartei";
     }
 
     @GetMapping("antwort/{id}")
     public String antwort(@PathVariable Long  id, Model model){
-        karten = karteRepository.findById(id);
+        kartenID = karteRepository.findById(id);
 
         return "redirect:/karte";
     }
 
     @GetMapping("lerngruppe/{id}")
     public String lerngruppe(@PathVariable Long id, Model model){
-       kartes = karteRepository.findAllByLernGruppe(lerngrupperepository.findById(id).get());
+       kartenGrup = karteRepository.findAllByLernGruppe(lerngrupperepository.findById(id).get());
         return "redirect:/karte";
     }
     @GetMapping("korrekt")
     public String korrekt(@Valid Karte karte, Model model){
-        if(karten.get().getLerncount() == 0){
-            karten.get().setLerncount(2);
-            karten.get().setDate(LocalDate.now().plusDays(2));
-            karten.get().setStatus(Status.KORREKT);
-            karteRepository.save(karten.get());
-        } else if (karten.get().getLerncount() > 0 && karten.get().getLerncount() < 30 ) {
-            karten.get().setLerncount(karten.get().getLerncount()+7);
-            karten.get().setDate(LocalDate.now().plusDays(7));
-            karten.get().setStatus(Status.KORREKT);
-            karteRepository.save(karten.get());
+        if(kartenID.get().getLerncount() == 0){
+            kartenID.get().setLerncount(2);
+            kartenID.get().setDate(LocalDate.now().plusDays(2));
+            kartenID.get().setStatus(Status.KORREKT);
+            karteRepository.save(kartenID.get());
+        } else if (kartenID.get().getLerncount() > 0 && kartenID.get().getLerncount() < 30 ) {
+            kartenID.get().setLerncount(kartenID.get().getLerncount()+7);
+            kartenID.get().setDate(LocalDate.now().plusDays(7));
+            kartenID.get().setStatus(Status.KORREKT);
+            karteRepository.save(kartenID.get());
         }else {
-            karten.get().setStatus(Status.GELERNT);
-            karten.get().setDate(null);
-            karteRepository.save(karten.get());
+            kartenID.get().setStatus(Status.GELERNT);
+            kartenID.get().setDate(null);
+            karteRepository.save(kartenID.get());
         }
-        karten = null;
+        kartenID = null;
         return "redirect:/karte";
     }
     @GetMapping("falsch")
     public String falsch(@Valid Karte karte, Model model){
 
-        karten.get().setDate(LocalDate.now().plusDays(1));
-        karten.get().setStatus(Status.FALSCH);
-        karten.get().setLerncount(0);
-        karteRepository.save(karten.get());
-        karten = null;
+        kartenID.get().setDate(LocalDate.now().plusDays(1));
+        kartenID.get().setStatus(Status.FALSCH);
+        kartenID.get().setLerncount(0);
+        karteRepository.save(kartenID.get());
+        kartenID = null;
 
         return "redirect:/karte";
     }
@@ -153,7 +153,7 @@ public class KarteController {
         karte.setStatus(Status.NEU);
         karte.setLerncount(0);
         karteRepository.save(karte);
-        kartes = karteRepository.findAllByLernGruppe(karte.getLernGruppe());
+        kartenGrup = karteRepository.findAllByLernGruppe(karte.getLernGruppe());
         return "redirect:/karte";
     }
     @PostMapping("delete")
